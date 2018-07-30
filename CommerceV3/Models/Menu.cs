@@ -9,6 +9,7 @@ namespace CommerceV3.Models
     public class Menu
     {
 		public string Id { get; set; }
+        [StringLength(200)]
         [Display(Name = "Menü Adı")]
         public string Name { get; set; }
 		public virtual ICollection<MenuItem> MenuItems { get; set; }

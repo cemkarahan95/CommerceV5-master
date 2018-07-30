@@ -65,6 +65,7 @@ namespace CommerceV3.Areas.Admin.Controllers
 
             ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Name");
             ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name");
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name");
             return View(product);
         }
 
@@ -76,7 +77,7 @@ namespace CommerceV3.Areas.Admin.Controllers
         public async Task<IActionResult> Create([Bind("Id,Name,Slug,Description," +
             "OldPrice,Price,Quantity,IsInStock,IsPublished,IsNew," +
             "ShippingPriceCityWide,ShippingPriceCountryWide,ShippingPriceWorldWide,SupplierId," +
-            "BrandId,CreatedBy,CreateDate,UpdatedBy,UpdateDate,Photo")] Product product, IFormFile upload)
+            "BrandId,CreatedBy,CreateDate,UpdatedBy,UpdateDate,Photo,CategoryId")] Product product, IFormFile upload)
         {
             if (ModelState.IsValid)
             {
@@ -109,6 +110,8 @@ namespace CommerceV3.Areas.Admin.Controllers
             }
             ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Name", product.BrandId);
             ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name", product.SupplierId);
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", 
+                product.CategoryId);
             return View(product);
         }
 
@@ -126,7 +129,10 @@ namespace CommerceV3.Areas.Admin.Controllers
                 return NotFound();
             }
             ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Name", product.BrandId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name", product.SupplierId);
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name", 
+                product.SupplierId);
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name",
+                product.CategoryId);
             return View(product);
         }
 
@@ -137,7 +143,7 @@ namespace CommerceV3.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Slug,Description,OldPrice," +
             "Price,Quantity,IsInStock,IsPublished,IsNew,ShippingPriceCityWide,ShippingPriceCountryWide," +
-            "ShippingPriceWorldWide,SupplierId,BrandId,CreatedBy,CreateDate,UpdatedBy,UpdateDate,Photo")] Product product, IFormFile upload)
+            "ShippingPriceWorldWide,SupplierId,BrandId,CreatedBy,CreateDate,UpdatedBy,UpdateDate,Photo,CategoryId")] Product product, IFormFile upload)
         {
             if (id != product.Id)
             {
@@ -148,6 +154,7 @@ namespace CommerceV3.Areas.Admin.Controllers
             {
                 try
                 {
+                    if (upload != null && upload.Length > 0)
                     {
                         // upload işlemi burada yapılır
                         var rnd = new Random();
@@ -184,7 +191,10 @@ namespace CommerceV3.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Name", product.BrandId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name", product.SupplierId);
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name", 
+                product.SupplierId);
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name",
+                product.CategoryId);
             return View(product);
         }
 

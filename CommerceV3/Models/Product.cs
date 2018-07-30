@@ -11,18 +11,19 @@ namespace CommerceV3.Models
     {
 		public string Id { get; set; }
         [Display(Name = "Ürün Adı")]
+        [StringLength(100)]
         public string Name { get; set; }
         [Display(Name = "Bağlantı")]
+        [StringLength(100)]
         public string Slug { get; set; }
 
         [StringLength(200)]
         [Display(Name = "Fotoğraf")]
         public string Photo { get; set; }
-
         [Display(Name = "Açıklama")]
         public string Description { get; set; }
         [Display(Name = "Eski Fiyat")]
-        public decimal OldPrice { get; set; }
+        public decimal OldPrice { get; set; }        
         [Display(Name = "Fiyat")]
         public decimal Price { get; set; }
         [Display(Name = "Adet")]
@@ -41,22 +42,28 @@ namespace CommerceV3.Models
         public decimal ShippingPriceWorldWide { get; set; }
 
         [Display(Name = "Tedarikçi")]
-        public string SupplierId { get; set; }
-		[ForeignKey("SupplierId")]
+        public string SupplierId { get; set; }       
+        [ForeignKey("SupplierId")]
         [Display(Name = "Tedarikçi")]
         public Supplier Supplier { get; set; }
         [Display(Name = "Marka")]
         public string BrandId { get; set; }
-		[ForeignKey("BrandId")]
+        [ForeignKey("BrandId")]
         [Display(Name = "Marka")]
         public Brand Brand { get; set; }
 
-		public virtual ICollection<ProductCategory> ProductCategories { get; set; }
+        [Display(Name = "Kategori")]
+        public string CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
+        [Display(Name = "Kategori")]
+        public Category Category { get; set; }
 
+        [StringLength(200)]
         [Display(Name = "Oluşturulan Kullanıcı")]
         public string CreatedBy { get; set; }
         [Display(Name = "Oluşturulma Tarihi")]
         public DateTime CreateDate { get; set; }
+        [StringLength(200)]
         [Display(Name = "Güncelleyen Kullanıcı")]
         public string UpdatedBy { get; set; }
         [Display(Name = "Güncellenme Tarihi")]

@@ -10,6 +10,7 @@ namespace CommerceV3.Models
     public class Supplier
     {
 		public string Id { get; set; }
+        [StringLength(200)]
         [Display(Name = "Tedarikçi Adı")]
         public string Name { get; set; }
         [Display(Name = "Bölge")]
@@ -17,10 +18,12 @@ namespace CommerceV3.Models
 		[ForeignKey("RegionId")]
         [Display(Name = "Bölge")]
         public Region Region { get; set; }
+        [StringLength(200)]
         [Display(Name = "Oluşturan Kullanıcı")]
         public string CreatedBy { get; set; }
         [Display(Name = "Oluşturulma Tarihi")]
         public DateTime CreateDate { get; set; }
+        [StringLength(200)]
         [Display(Name = "Güncelleyen Kullanıcı")]
         public string UpdatedBy { get; set; }
         [Display(Name = "Güncellenme Tarihi")]

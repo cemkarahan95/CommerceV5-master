@@ -10,10 +10,13 @@ namespace CommerceV3.Models
     public class MenuItem
     {
 		public string Id { get; set; }
+        [StringLength(200)]
         [Display(Name = "Menü Öğesi Adı")]
         public string Name { get; set; }
+        [StringLength(200)]
         [Display(Name = "Bağlantı")]
         public string Url { get; set; }
+        [StringLength(200)]
         [Display(Name = "Hedef")]
         public string Target { get; set; }
         [Display(Name = "Yayında Mı?")]

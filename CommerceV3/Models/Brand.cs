@@ -9,8 +9,10 @@ namespace CommerceV3.Models
     public class Brand
     {
 		public string Id { get; set; }
+        [StringLength(200)]
         [Display(Name = "Marka Adı")]
 		public string Name { get; set; }
+        [StringLength(200)]
         [Display(Name = "Logo")]
 		public string Logo { get; set; }
 
