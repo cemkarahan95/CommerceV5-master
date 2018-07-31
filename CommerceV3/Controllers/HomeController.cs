@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using CommerceV3.Models;
 using CommerceV3.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Net.Mail;
+using System.Net;
 
 namespace CommerceV3.Controllers
 {
@@ -38,9 +41,39 @@ namespace CommerceV3.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
-
+            ViewBag.Countries = new SelectList(db.Regions.Where(r => r.RegionType == RegionType.Country).OrderBy(o =>
+             o.Name).ToList(), "Id", "Name");
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Contact(string fullName, string email, string country, string city, string subject, string message)
+        {
+            // mail gönderme işlemi
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+            client.UseDefaultCredentials = false;
+            client.EnableSsl = true;
+            client.Credentials = new NetworkCredential("ibrahimgnyg@gmail.com", "Sumeyyee12");
+
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.From = new MailAddress("ibrahimgnyg@gmail.com");
+            mailMessage.To.Add("ibrahimgnyg@gmail.com");
+
+            //ülke ve şehir adlarını al
+            var countryName = db.Regions.FirstOrDefault(r => r.Id == country)?.Name;
+            var cityName = db.Regions.FirstOrDefault(r => r.Id == city)?.Name;
+
+            mailMessage.Body = "Tam Ad:" + fullName + "\nE-posta: " + email + "\nÜlke: " + country +
+                "\nŞehir:" + city + "\nMesaj:" + message;
+            mailMessage.Subject = subject;
+            client.Send(mailMessage);
+            ViewBag.Message = "Mesajınız başarıyla iletilmiştir, en kısa sürede dönüş yapılacaktır.";
+            return View();
+        }
+
+        public IEnumerable<Region> GetCities(string parentRegionId)
+        {
+            return db.Regions.Where(r => r.RegionType == RegionType.City && r.ParentRegionId == parentRegionId).OrderBy(o => o.Name).ToList();
         }
 
         public IActionResult Privacy()
